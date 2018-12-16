@@ -21,9 +21,9 @@ public class MovieDAO {
 
 	private Connection getConnection() throws Exception {
 		Connection conn = null;
-		String jdbcUrl = "jdbc:mysql://localhost:3306/db_project?serverTimezone=UTC&useSSL=false";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/dbterm?serverTimezone=UTC&useSSL=false";
 		String dbId = "root";
-		String dbPass = "asdasd1";
+		String dbPass = "tkrhkak7170";
 
 		Class.forName("com.mysql.jdbc.Driver");
 		conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
@@ -31,7 +31,6 @@ public class MovieDAO {
 
 	}
 
-	// 영화 등록하기
 	public boolean insertMovie(MovieDTO dto) {
 
 		boolean result = false;
@@ -89,27 +88,9 @@ public class MovieDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
-
 		return dto;
 	}
-
 
 	public List<MovieDTO> getMovieList_for_manager() {
 		List<MovieDTO> list = new ArrayList<MovieDTO>();
@@ -138,36 +119,45 @@ public class MovieDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
-
 		return list;
 	}
 
 	public List<MovieDTO> getMovieList_for_user() {
 		List<MovieDTO> list = new ArrayList<MovieDTO>();
 		ArrayList<String> list2 = new ArrayList<String>();
+		ArrayList<String> movie_id_list = new ArrayList<String>();
+		ArrayList<String> time_table_exist_list = new ArrayList<String>();
 
 		ResultSet r = null;
+		ResultSet r2 = null;
+		ResultSet r3 = null;
 
 		try {
 			conn = getConnection();
 
+			String sql3 = "SELECT distinct movie_id FROM time_table";
+			pstmt = conn.prepareStatement(sql3);
+			r3 = pstmt.executeQuery();
+
+			while (r3.next()) {
+				String m_id = r3.getString("movie_id");
+				movie_id_list.add(m_id);
+			}
+
+			int index = 0;
+			while (index < movie_id_list.size()) {
+				String sql2 = "SELECT movie_name FROM movie where movie_id = ?";
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, movie_id_list.get(index));
+				r2 = pstmt.executeQuery();
+
+				while (r2.next()) {
+					String m_name = r2.getString("movie_name");
+					time_table_exist_list.add(m_name);
+				}
+				index++;
+			}
 			String sql = "SELECT movie_id, movie_name, movie_director, movie_actor, movie_rating, movie_info, movie_reserve_count, theater_name FROM movie ORDER BY movie_reserve_count DESC";
 			pstmt = conn.prepareStatement(sql);
 			r = pstmt.executeQuery();
@@ -184,35 +174,21 @@ public class MovieDAO {
 
 				MovieDTO m_dto = new MovieDTO(movie_id, movie_name, movie_director, movie_actor, movie_rating,
 						movie_info, movie_reserve_count, theater_name);
-				if (list2.contains(movie_name)) {
-					int a = list2.indexOf(movie_name);
-					int sum = list.get(a).getMovie_reserve_count() + movie_reserve_count;
-					list.get(a).setMovie_reserve_count(sum);
-				} else {
-					list.add(m_dto);
-					list2.add(movie_name);
+
+				if (time_table_exist_list.contains(movie_name)) {
+					if (list2.contains(movie_name)) {
+						int a = list2.indexOf(movie_name);
+						int sum = list.get(a).getMovie_reserve_count() + movie_reserve_count;
+						list.get(a).setMovie_reserve_count(sum);
+					} else {
+						list.add(m_dto);
+						list2.add(movie_name);
+					}
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
-
 		return list;
 	}
 
@@ -242,17 +218,6 @@ public class MovieDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException sqle) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException sqle) {
-				}
 		}
 		return result;
 	}

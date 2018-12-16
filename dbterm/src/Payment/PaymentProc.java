@@ -104,7 +104,7 @@ public class PaymentProc {
 		try {
 			System.out.print("결제 방법을 선택해주세요. : ");
 			num = scn.nextInt();
-			while (!(num == 1 || num == 2)) { 
+			while (!(num == 1 || num == 2)) { // 1~2외의 숫자가 입력되면 예외 강제 발생
 				System.out.print("잘못된 입력입니다. 다시 입력해주세요 : ");
 				num = scn.nextInt();
 			}
@@ -114,7 +114,7 @@ public class PaymentProc {
 		if (num == 1) {
 			System.out.println("인터넷 결제를 진행합니다.");
 			System.out.println("결제할 카드번호를 입력해주세요.(- 없이) : ");
-			scn.nextInt();
+			scn.nextLong();
 			System.out.println("카드의 비밀번호를 입력해주세요. : ");
 			scn.nextInt();
 			System.out.println("결제가 완료되었습니다.");
@@ -127,7 +127,7 @@ public class PaymentProc {
 			System.out.print("결제 방법을 선택해주세요. : ");
 			try {
 				c = scn.nextInt();
-				while (c != 1 && c != 2) {
+				while (c != 1 && c != 2) { // 1~2외의 숫자가 입력되면 예외 강제 발생
 					System.out.print("잘못 된 입력입니다. 다시 입력해 주세요: ");
 					c = scn.nextInt();
 

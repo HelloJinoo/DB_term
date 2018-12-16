@@ -23,7 +23,7 @@ public class MovieManagement {
 			int num=0;
 			try {
 				num = scn.nextInt();
-				if(!(num>0 && num<6)){ 
+				if(!(num>0 && num<6)){ //1~5외의 숫자가 입력되면 예외 강제 발생
 					throw new InputMismatchException();
 				}
 			} catch (InputMismatchException e) {
@@ -32,14 +32,14 @@ public class MovieManagement {
 			
 			switch (num) {
 			case 1:
-				mm.showMovieList_for_manager();	
+				mm.showMovieList_for_manager();
 				break;
 			case 2:
-				mm.insertMovie(); 
+				mm.insertMovie();
 				break;
 			case 3:
 				mm.showMovieList_for_manager();
-				mm.deleteMovie(); 		
+				mm.deleteMovie();			
 				break;
 			case 4:
 				mm.showMovieList_for_manager();

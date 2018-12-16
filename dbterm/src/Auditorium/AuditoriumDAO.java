@@ -20,16 +20,16 @@ public class AuditoriumDAO {
 
 	private Connection getConnection() throws Exception {
 		Connection conn = null;
-		String jdbcUrl = "jdbc:mysql://localhost:3306/db_project?serverTimezone=UTC&useSSL=false";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/dbterm?serverTimezone=UTC&useSSL=false";
 		String dbId = "root";
-		String dbPass = "asdasd1";
+		String dbPass = "tkrhkak7170";
 
 		Class.forName("com.mysql.jdbc.Driver");
 		conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
 		return conn;
 
 	}
-	// 영화 등록하기
+
 	public boolean insertAuditorium(AuditoriumDTO dto) {
 		
 		PreparedStatement pstmt2 = null;
@@ -60,22 +60,10 @@ public class AuditoriumDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException sqle) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException sqle) {
-				}
 		}
 		return result;
 	}
 
-	
 	public AuditoriumDTO getAuditorium(String a_name) {
 		AuditoriumDTO dto = null;
 		ResultSet r = null;
@@ -97,27 +85,10 @@ public class AuditoriumDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
 
 		return dto;
 	}
-
 
 	public List<AuditoriumDTO> getAuditoriumList() {
 		List<AuditoriumDTO> list = new ArrayList<AuditoriumDTO>();
@@ -140,24 +111,7 @@ public class AuditoriumDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
-
 		return list;
 	}
 
@@ -183,27 +137,9 @@ public class AuditoriumDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
-
 		return list;
 	}
-
 
 	public boolean deleteAuditorium(String a_name) {
 		boolean result = false;
@@ -219,17 +155,6 @@ public class AuditoriumDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException sqle) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException sqle) {
-				}
 		}
 		return result;
 	}

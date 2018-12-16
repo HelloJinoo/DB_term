@@ -26,7 +26,6 @@ public class AuditoriumProc {
 		dao = new AuditoriumDAO();
 	}
 
-	// 영화관 등록 처리
 	public void insertAuditorium(String t_name) {
 		Scanner scn = new Scanner(System.in);
 		System.out.println("상영관 정보를 입력해주세요.");
@@ -116,7 +115,6 @@ public class AuditoriumProc {
 		return false;
 	}
 
-
 	public void deleteAuditorium() {
 		Scanner scn = new Scanner(System.in);
 		System.out.print("삭제할 상영관의 상영관 이름을 입력해주세요 : ");
@@ -143,7 +141,6 @@ public class AuditoriumProc {
 			System.out.println("입력하신 상영관 이름에 해당하는 상영관이 존재하지 않습니다.");
 		}
 	}
-
 
 	public String reInput() {
 

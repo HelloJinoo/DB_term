@@ -23,7 +23,6 @@ public class Time_tableProc {
 		dao = new Time_tableDAO();
 	}
 
-
 	public void insertTime_table(String a_name, String m_id) {
 		String time = "";
 		String hour = "";
@@ -250,7 +249,31 @@ public class Time_tableProc {
 
 	}
 
+	public void deleteTime_table() {
+		Scanner scn = new Scanner(System.in);
+		System.out.print("영화 상영을 중지할 상영관 이름을 입력해주세요 : ");
+		String a_name = scn.nextLine();
+		Time_tableDTO dto = dao.getTime_table(a_name);
+		if (dto != null) {
+			System.out.println("위 상영관의 영화 상영을 정말로 중지하시겠습니까?(Y/N)");
+			String input = scn.nextLine();
+			if (input.equalsIgnoreCase("y")) {
+				boolean r = dao.deleteTime_table(a_name);
 
+				if (r) {
+					System.out.println(a_name + " 상영관의 상영을 정상적으로 중지하였습니다.");
+				} else {
+					System.out.println("상영관의 상영이 올바르게 중지되지 않았습니다.");
+				}
+			} else {
+				System.out.println("삭제 작업을 취소하였습니다.");
+			}
+		} else {
+
+			System.out.println("입력하신 상영관 이름에 해당하는 영화가 존재하지 않습니다.");
+		}
+	}
+	
 	public void showTime_tableList() {
 
 		List<Time_tableDTO> list = dao.getTime_tableList();
@@ -285,7 +308,6 @@ public class Time_tableProc {
 		}
 		return false;
 	}
-
 
 	public String reInput() {
 		Scanner scn = new Scanner(System.in);

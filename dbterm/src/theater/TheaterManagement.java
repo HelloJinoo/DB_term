@@ -24,7 +24,7 @@ public class TheaterManagement {
 			int num=0;
 			try {
 				num = scn.nextInt();
-				if(!(num>0 && num<6)){
+				if(!(num>0 && num<6)){ //1~5외의 숫자가 입력되면 예외 강제 발생
 					throw new InputMismatchException();
 				}
 			} catch (InputMismatchException e) {
@@ -40,7 +40,7 @@ public class TheaterManagement {
 				break;
 			case 3:
 				mm.showTheaterList();
-				mm.deleteTheater(); 		
+				mm.deleteTheater(); 				
 				break;
 			case 4:
 				mm.showTheaterList();

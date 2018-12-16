@@ -27,9 +27,9 @@ public class TicketingDAO {
 
 	private Connection getConnection() throws Exception {
 		Connection conn = null;
-		String jdbcUrl = "jdbc:mysql://localhost:3306/db_project?serverTimezone=UTC&useSSL=false";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/dbterm?serverTimezone=UTC&useSSL=false";
 		String dbId = "root";
-		String dbPass = "asdasd1";
+		String dbPass = "tkrhkak7170";
 
 		Class.forName("com.mysql.jdbc.Driver");
 		conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
@@ -70,25 +70,41 @@ public class TicketingDAO {
 
 	public List<TheaterDTO> getTicketingTheater(String m_name) {
 		List<TheaterDTO> list = new ArrayList<TheaterDTO>();
+		List<String> list2 = new ArrayList<String>();
 		ResultSet r = null;
+		ResultSet r2 = null;
 
 		try {
 			conn = getConnection();
 
-			String sql = "SELECT theater_name, theater_address, theater_number FROM theater where theater_name "
-					+ "in (select theater_name from movie where movie_name = ? )";
-
-			pstmt = conn.prepareStatement(sql);
+			String sql2 = "select movie_id from movie where movie_name = ?;";
+			pstmt = conn.prepareStatement(sql2);
 			pstmt.setString(1, m_name);
-			r = pstmt.executeQuery();
-
-			while (r.next()) {
-				String theater_name = r.getString("theater_name");
-				String theater_address = r.getString("theater_address");
-				String theater_number = r.getString("theater_number");
-				list.add(new TheaterDTO(theater_name, theater_address, theater_number));
+			r2 = pstmt.executeQuery();
+			while (r2.next()) {
+				String m_id = r2.getString("movie_id");
+				list2.add(m_id);
 			}
 
+			int index = 0;
+
+			while (index < list2.size()) {
+				String sql = "SELECT theater_name, theater_address, theater_number FROM theater where theater_name "
+						+ "in (select theater_name from auditorium where auditorium_name in (select auditorium_name "
+						+ "from time_table where movie_id = ?))";
+
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, list2.get(index));
+				r = pstmt.executeQuery();
+
+				while (r.next()) {
+					String theater_name = r.getString("theater_name");
+					String theater_address = r.getString("theater_address");
+					String theater_number = r.getString("theater_number");
+					list.add(new TheaterDTO(theater_name, theater_address, theater_number));
+				}
+				index++;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -302,18 +318,19 @@ public class TicketingDAO {
 		try {
 
 			conn = getConnection();
-	
+			// 회원 예매 횟수 --
 			String sql = "update client set client_purchase_count = client_purchase_count-1 where client_id in ( select client_id from ticketing where ticket_number ="
 					+ ticket_No + ") ";
 			pstmt = conn.prepareStatement(sql);
 			int r1 = pstmt.executeUpdate();
 
-		
+			// 영화 예매 횟수 --
 			sql = "update movie set movie_reserve_count = movie_reserve_count-1 where movie_id in ( select movie_id from ticketing where ticket_number = "
 					+ ticket_No + ") ";
 			pstmt = conn.prepareStatement(sql);
 			int r2 = pstmt.executeUpdate();
 
+			// 결제에서 삭제
 			sql = "delete from payment where ticket_no =" + ticket_No;
 			pstmt = conn.prepareStatement(sql);
 			int r4 = pstmt.executeUpdate();
@@ -326,27 +343,30 @@ public class TicketingDAO {
 						+ ticket_No + "))";
 				pstmt = conn.prepareStatement(sql);
 				int r3 = pstmt.executeUpdate();
-				
+
+				// 줬던 포인트 다시 차감
 				sql = "update client set client_point = client_point - 100 * (select people from ticketing where ticket_number = ?) where client_id in ( select client_id from ticketing where ticket_number = ? );";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, Integer.toString(ticket_No));
 				pstmt.setString(2, Integer.toString(ticket_No));
 				int r6 = pstmt.executeUpdate();
-		
+
+				// 예매 현황에서 삭제
 				sql = "delete from ticketing where ticket_number =" + ticket_No;
 				pstmt = conn.prepareStatement(sql);
 				int r5 = pstmt.executeUpdate();
-				
+
 				if (r1 > 0 && r2 > 0 && r3 > 0 && r4 > 0 && r5 > 0 && r6 > 0) {
 					result = true;
 				}
 
 			} else {
-		
+
+				// 예매 현황에서 삭제
 				sql = "delete from ticketing where ticket_number =" + ticket_No;
 				pstmt = conn.prepareStatement(sql);
 				int r5 = pstmt.executeUpdate();
-				
+
 				if (r1 > 0 && r2 > 0 && r4 > 0 && r5 > 0) {
 					result = true;
 				}
@@ -358,7 +378,6 @@ public class TicketingDAO {
 		return result;
 	}
 
-	
 	public void getPrintTicket(int t_no) {
 		try {
 			String sql;
@@ -468,17 +487,6 @@ public class TicketingDAO {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				if (pstmt != null)
-					try {
-						pstmt.close();
-					} catch (SQLException ex) {
-					}
-				if (conn != null)
-					try {
-						conn.close();
-					} catch (SQLException ex) {
-					}
 			}
 		}
 		return payment_no;
@@ -503,17 +511,6 @@ public class TicketingDAO {
 
 		} catch (Exception e) {
 
-		} finally {
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException sqle) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException sqle) {
-				}
 		}
 		return isPayed;
 	}

@@ -20,9 +20,9 @@ public class Time_tableDAO {
 
 	private Connection getConnection() throws Exception {
 		Connection conn = null;
-		String jdbcUrl = "jdbc:mysql://localhost:3306/db_project?serverTimezone=UTC&useSSL=false";
+		String jdbcUrl = "jdbc:mysql://localhost:3306/dbterm?serverTimezone=UTC&useSSL=false";
 		String dbId = "root";
-		String dbPass = "asdasd1";
+		String dbPass = "tkrhkak7170";
 
 		Class.forName("com.mysql.jdbc.Driver");
 		conn = DriverManager.getConnection(jdbcUrl, dbId, dbPass);
@@ -84,29 +84,11 @@ public class Time_tableDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
-
 		return dto;
 	}
-
+	
 	public boolean showTime_tableExist(String a_name) {
-		Time_tableDTO dto = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet r = null;
@@ -127,17 +109,6 @@ public class Time_tableDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
 		}
 		return result;
 	}
@@ -152,7 +123,7 @@ public class Time_tableDAO {
 			conn = getConnection();
 
 			String sql = "SELECT auditorium_name, show_time, movie_id,"
-					+ "start_date, end_date FROM time_table ORDER BY show_time ASC";
+					+ "start_date, end_date FROM time_table ORDER BY auditorium_name ASC";
 			pstmt = conn.prepareStatement(sql);
 			r = pstmt.executeQuery();
 
@@ -167,23 +138,7 @@ public class Time_tableDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (r != null)
-				try {
-					r.close();
-				} catch (SQLException ex) {
-				}
-			if (pstmt != null)
-				try {
-					pstmt.close();
-				} catch (SQLException ex) {
-				}
-			if (conn != null)
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-				}
-		}
+		} 
 
 		return list;
 	}
@@ -218,5 +173,27 @@ public class Time_tableDAO {
 		}
 		return list;
 	}
+	
+	public boolean deleteTime_table(String a_name) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "DELETE FROM time_table WHERE auditorium_name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, a_name);
+			int r = pstmt.executeUpdate();
+			if (r > 0) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 
 }

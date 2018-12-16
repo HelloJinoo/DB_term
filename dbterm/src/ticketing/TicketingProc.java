@@ -159,7 +159,6 @@ public class TicketingProc {
 		}
 	}
 
-	
 	public boolean showTicketingTheater(String m_name) {
 
 		List<TheaterDTO> list = dao.getTicketingTheater(m_name);
@@ -414,7 +413,6 @@ public class TicketingProc {
 
 		return str;
 	}
-
 
 	public void printTicket(String id) {
 		System.out.println("                                         예매 현황");

@@ -30,7 +30,6 @@ public class UserProc {
 		dao = new UserDAO();
 	}
 
-
 	public void SignUpUser() {
 
 		Scanner scn = new Scanner(System.in);
@@ -76,7 +75,7 @@ public class UserProc {
 			if (r) {
 				System.out.println("관리자님 안녕하세요!");
 				return 1;
-			
+				//관리자 로그인 1 리턴
 			} else {
 				System.out.println("로그인이 이루어지지 않았습니다.");
 				return -1;
@@ -86,7 +85,7 @@ public class UserProc {
 				setLoggedId(client_id);
 				System.out.println("로그인이 정상적으로 완료되었습니다.");
 				return 0;
-			
+				//고객 로그인 0리턴
 			} else {
 				System.out.println("로그인이 이루어지지 않았습니다.");
 				return -1;

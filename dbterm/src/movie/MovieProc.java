@@ -28,7 +28,6 @@ public class MovieProc {
 		dao = new MovieDAO();
 	}
 
-
 	public void insertMovie() {
 
 		AuditoriumProc ap = new AuditoriumProc();
@@ -149,7 +148,6 @@ public class MovieProc {
 				+ ((list == null) ? "0" : list.size()) + "개========================================\n");
 	}
 
-	// 영화관 수정
 	public void updateMovie() {
 
 		System.out.println("수정할 영화의 영화 id를 입력해주세요 : ");

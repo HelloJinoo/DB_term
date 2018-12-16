@@ -7,8 +7,6 @@ public class TheaterDTO {
 	private String theater_name;
 	private String theater_address;
 	private String theater_number;
-	
-	
 
 	public TheaterDTO() {
 	
@@ -44,8 +42,6 @@ public class TheaterDTO {
 	public void setTheater_number(String theater_number) {
 		this.theater_number = theater_number;
 	}
-
-	
 
 	public String getInfo() {
 		StringBuffer sb = new StringBuffer();

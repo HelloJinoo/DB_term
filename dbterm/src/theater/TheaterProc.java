@@ -81,7 +81,6 @@ public class TheaterProc {
 				+ ((list == null) ? "0" : list.size()) + "개=\n");
 	}
 
-	
 	public void updateTheater() {
 
 		Scanner scn = new Scanner(System.in);
@@ -125,7 +124,6 @@ public class TheaterProc {
 			System.out.println("입력하신 영화관 이름에 해당하는 영화관이 존재하지 않습니다.");
 		}
 	}
-
 
 	public void deleteTheater() {
 

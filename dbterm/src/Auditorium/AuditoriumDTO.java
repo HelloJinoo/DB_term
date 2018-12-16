@@ -43,7 +43,6 @@ public class AuditoriumDTO {
 	public void setTheater_name(String theater_name) {
 		this.theater_name = theater_name;
 	}
-	
 
 	public String getInfo() {
 		StringBuffer sb = new StringBuffer();

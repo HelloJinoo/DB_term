@@ -91,7 +91,6 @@ public class MovieDTO {
 		this.theater_name = t_name;
 	}
 
-
 	public String getInfo() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\r\n");

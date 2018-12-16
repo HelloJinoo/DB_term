@@ -22,7 +22,7 @@ public class ClientManagement {
 			int num = 0;
 			try {
 				num = scn.nextInt();
-				if (!(num > 0 && num < 4)) { 
+				if (!(num > 0 && num < 4)) { // 1~6외의 숫자가 입력되면 예외 강제 발생
 					throw new InputMismatchException();
 				}
 			} catch (InputMismatchException e) {

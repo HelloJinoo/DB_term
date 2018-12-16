@@ -93,7 +93,6 @@ public class UserDTO {
 		this.user_purchase_count = user_purchase_count;
 	}
 
-
 	public String getInfo() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("\r\n");

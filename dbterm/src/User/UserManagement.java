@@ -32,7 +32,7 @@ public class UserManagement {
 			int num = 0;
 			try {
 				num = scn.nextInt();
-				if (!(num > 0 && num < 4)) { 
+				if (!(num > 0 && num < 4)) { // 1~3 외의 숫자가 입력되면 예외 강제 발생
 					throw new InputMismatchException();
 				}
 			} catch (InputMismatchException e) {
@@ -42,7 +42,7 @@ public class UserManagement {
 			switch (num) {
 			case 1:
 				int r = mm.loginUser();
-				if (r == 1) { 
+				if (r == 1) { // 관리자
 					manager_view();
 				} else if (r == 0) {
 					logIn_id = mm.getLoggedId();
@@ -138,7 +138,7 @@ public class UserManagement {
 			int num = 0;
 			try {
 				num = scn.nextInt();
-				if (!(num > 0 && num < 10)) { 
+				if (!(num > 0 && num < 10)) { // 1~7 외의 숫자가 입력되면 예외 강제 발생
 					throw new InputMismatchException();
 				}
 			} catch (InputMismatchException e) {

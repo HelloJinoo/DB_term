@@ -23,7 +23,8 @@ public class AuditoriumManagement {
 			System.out.println();
 			System.out.println("============== 상영관 관리 프로그램 ==============");
 			System.out.println("1. 상영관 목록   2. 상영관 등록");			
-			System.out.println("3. 상영관 삭제   4. 뒤로");
+			System.out.println("3. 상영관 삭제   4. 영화 상영 중지");
+			System.out.println("5. 뒤로");
 			System.out.println("============== aaaaaaaaaaaaaaaaaa ==============");
 			System.out.print("메뉴를 입력하세요 : ");
 			
@@ -32,7 +33,7 @@ public class AuditoriumManagement {
 			int num=0;
 			try {
 				num = scn.nextInt();
-				if(!(num>0 && num<5)){ 
+				if(!(num>0 && num<6)){ 
 					throw new InputMismatchException();
 				}
 			} catch (InputMismatchException e) {
@@ -54,15 +55,19 @@ public class AuditoriumManagement {
 						System.out.println("이 영화관은 존재하지 않습니다.");
 					}
 				}
-				mm.insertAuditorium(t_name);
+				mm.insertAuditorium(t_name); 
 				break;
 			case 3:
 				mm.showAuditoriumList();
-				mm.deleteAuditorium(); 				
+				mm.deleteAuditorium(); 			
 				break;
 			case 4:
+				tp.showTime_tableList();
+				tp.deleteTime_table();
+				break;
+			case 5:
 				System.out.println("뒤로가기");
-				run = false;			
+				run = false;	
 			}
 		}	
 		
